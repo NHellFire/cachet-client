@@ -271,7 +271,7 @@ class IncidentManager(Manager):
             ),
         )
 
-    def list(self, page: int = 1, per_page: int = 1) -> Generator[Incident, None, None]:
+    def list(self, page: int = 1, per_page: int = 1, sort: str = None, order: str = None) -> Generator[Incident, None, None]:
         """
         List all incidents paginated
 
@@ -286,6 +286,8 @@ class IncidentManager(Manager):
             self.path,
             page=page,
             per_page=per_page,
+            sort=sort,
+            order=order
         )
 
     def get(self, incident_id: int) -> Incident:

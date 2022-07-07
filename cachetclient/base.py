@@ -162,7 +162,7 @@ class Manager:
         return self.resource_class(self, response.json()["data"])
 
     def _list_paginated(
-        self, path: str, page=1, per_page=20
+        self, path: str, page=1, per_page=20, sort=None, order=None
     ) -> Generator[Resource, None, None]:
         """List resources paginated.
 
@@ -176,13 +176,21 @@ class Manager:
         Returns:
             Generator of resources
         """
+        params = {
+            "per_page": per_page,
+        }
+        if sort:
+            params["sort"] = sort
+        if order:
+            params["order"] = order
+
+
         while True:
+            params["page"] = page
+
             result = self._http.get(
                 path,
-                params={
-                    "page": page,
-                    "per_page": per_page,
-                },
+                params=params
             )
             json_data = result.json()
 
